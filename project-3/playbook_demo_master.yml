@@ -1,0 +1,156 @@
+---
+#
+# EECS 4287/5287: Principles of Cloud Computing
+# Author: Aniruddha Gokhale
+# Created: Fall 2017
+# Modified: Fall 2020
+#
+# This playbook is our demo master file
+# The goal is to show how to have a single master file which then
+# includes multiple plays according to some well-designed choreography
+#
+# This file is similar to the one in the AnsibleOnly_Local_and_Cloud folder
+# For now I just kept one play in here but feel free to add more.
+#####################################################
+### Play 1: Get facts from all our VMs
+#
+# Here I show the use of import_tasks from child playbooks
+#####################################################
+#- import_playbook: tasks/playbook_create_cloud_vms.yml
+
+
+- name: "Play 1: Create Cloud VMs"
+  hosts: MyLocalVMs          # specified in the MyInventory file
+  remote_user:  ubuntu      # note that the user is ubuntu for
+                             # vagrant-created VM else use the
+                             # appropriate user name
+
+  gather_facts: yes          # We ask Ansible to collect all facts
+  become: no            # No need for sudo as we are not installing anything
+
+  tasks:    # the task to be performed (here I am showing the effect of include_)
+    # - include_tasks: tasks/playbook_get_facts_local_vm.yml
+    # - include_tasks: tasks/playbook_get_facts_cloud_vm.yml
+    - import_tasks: tasks/playbook_create_cloud_vms.yml
+
+    # - name: Pause for 2 minutes for config
+    #   pause:
+    #     minutes: 2
+
+# install packages on cloud VMs (apt, pip, kafka)
+- name: "Play 2: Install Packages"
+  hosts: MyChameleonVMs          # specified in the MyInventory file
+  remote_user:  ubuntu      # note that the user is ubuntu for
+                             # vagrant-created VM else use the
+                             # appropriate user name
+
+  gather_facts: yes          # We ask Ansible to collect all facts
+  become: yes
+
+  tasks:    # the task to be performed (here I am showing the effect of include_)
+  # install packages + kafka
+    - import_tasks: tasks/playbook_install_packages.yml
+  # install couchdb
+  # - include_tasks: tasks/playbook_install_couchDB.yml
+
+
+# install packages on cloud VMs (apt, pip, kafka)
+- name: "Play 3: Configure Kafka on ZookeeperVM"
+  hosts: ZookeeperVM          # specified in the MyInventory file
+  remote_user:  ubuntu      # note that the user is ubuntu for
+                             # vagrant-created VM else use the
+                             # appropriate user name
+
+  gather_facts: yes          # We ask Ansible to collect all facts
+  become: no
+
+  tasks:    # the task to be performed (here I am showing the effect of include_)
+  - import_tasks: tasks/playbook_configure_kafka_zookeeper.yml
+
+# configure couchDB vm's broker and couchDB settings
+- name: "Play 4: Configure Kafka on DB VM"
+  hosts: MyChameleonVMs          # specified in the MyInventory file
+  remote_user:  ubuntu      # note that the user is ubuntu for
+                             # vagrant-created VM else use the
+                             # appropriate user name
+
+  gather_facts: yes          # We ask Ansible to collect all facts
+  become: no
+
+  tasks:    # the task to be performed (here I am showing the effect of include_)
+  - import_tasks: tasks/playbook_configure_kafka_db.yml
+
+# set ufw rules
+- name: "Play 5: Set UFW Rules"
+  hosts: MyChameleonVMs          # specified in the MyInventory file
+  remote_user:  ubuntu      # note that the user is ubuntu for
+                             # vagrant-created VM else use the
+                             # appropriate user name
+
+  gather_facts: yes          # We ask Ansible to collect all facts
+  become: no
+
+  tasks:    # the task to be performed (here I am showing the effect of include_)
+  # install packages + kafka
+  - import_tasks: tasks/playbook_set_ufw_rules.yml
+
+
+# execute kafka brokers and zookeeper
+- name: "Play 6: Start Zookeeper"
+  hosts: ZookeeperVM          # specified in the MyInventory file
+  remote_user:  ubuntu      # note that the user is ubuntu for
+                             # vagrant-created VM else use the
+                             # appropriate user name
+
+  gather_facts: yes          # We ask Ansible to collect all facts
+  become: no
+
+  tasks:    # the task to be performed (here I am showing the effect of include_)
+  # install packages + kafka
+  - import_tasks: tasks/playbook_delete_logs.yml
+  - import_tasks: tasks/playbook_start_zookeeper.yml
+
+
+- name: "Play 7: Start Brokers"
+  hosts: MyChameleonVMs          # specified in the MyInventory file
+  remote_user:  ubuntu      # note that the user is ubuntu for
+                             # vagrant-created VM else use the
+                             # appropriate user name
+
+  gather_facts: yes          # We ask Ansible to collect all facts
+  become: no
+
+  tasks:    # the task to be performed (here I am showing the effect of include_)
+  # start both brokers
+  - import_tasks: tasks/playbook_start_brokers.yml
+
+
+
+# execute consumer
+- name: "Play 8: Start Consumer"
+  hosts: CouchVM          # specified in the MyInventory file
+  remote_user:  ubuntu      # note that the user is ubuntu for
+                             # vagrant-created VM else use the
+                             # appropriate user name
+
+  gather_facts: yes          # We ask Ansible to collect all facts
+  become: no
+
+  tasks:    # the task to be performed (here I am showing the effect of include_)
+  - import_tasks: tasks/playbook_start_consumer.yml
+
+
+# # clean up
+# - name: "Play 9: Clean Up"
+#   hosts: MyLocalVMs          # specified in the MyInventory file
+#   remote_user:  ubuntu      # note that the user is ubuntu for
+#                              # vagrant-created VM else use the
+#                              # appropriate user name
+#
+#   gather_facts: yes          # We ask Ansible to collect all facts
+#   become: no
+#
+#   tasks:    # the task to be performed (here I am showing the effect of include_)
+#   - include_tasks: tasks/playbook_clean_up.yml
+
+...

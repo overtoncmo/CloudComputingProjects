@@ -1,0 +1,6 @@
+- name: Start consumer
+  command: python3 ~/consumer.py
+  register: output
+  become: no
+  async: 99999
+  poll: 0

@@ -1,0 +1,12 @@
+- name: Delete Logs
+  command:  rm -fr /tmp/kafka-logs # say we execute our famous command from assignment #1
+  register: output
+  become: no
+
+
+- name: Start broker
+  command: /home/cc/kafka/bin/kafka-server-start.sh /home/cc/kafka/config/server.properties
+  register: output
+  become: no
+  async: 99999
+  poll: 0

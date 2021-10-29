@@ -1,0 +1,72 @@
+- name: Copy server.properties
+  copy:
+    src: ~/db-server.properties  # here you can give absolute path also.
+    dest: /home/cc/kafka/config/server.properties    # destination directory into which this file will get copied.
+
+# - name: Upgrade apt-get
+#   command: apt-get update
+#   register: output
+#   become: yes
+#
+# - name: Ensure apt-transport-https is Installed
+#   command: apt-get install -y apt-transport-https ca-certificates curl
+#   register: output
+#   become: yes
+#
+# - name: Download Google Cloud Public Signing Key
+#   command: curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg
+#   register: output
+#   become: yes
+#
+# - name: Add Kubernetes apt Repo
+#   command: echo "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
+#   register: output
+#   become: yes
+#
+# - name: Upgrade apt-get
+#   command: apt-get update
+#   register: output
+#   become: yes
+#
+# - name: Get Kubectl
+#   apt: name=kubectl state=latest
+#   become: yes
+#
+# - name: Get Kubelet
+#   apt: name=kubelet state=latest
+#   become: yes
+#
+# - name: Get Kubeadm
+#   apt: name=kubeadm state=latest
+#   become: yes
+# sudo apt-get update
+# sudo apt-get install -y apt-transport-https ca-certificates curl
+# sudo curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg
+# echo "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
+# sudo apt-get update
+# sudo apt-get install -y kubectl
+
+# - name: Install CouchDB for Python
+#   command:  python3 -m pip install CouchDB # say we execute our famous command from assignment #1
+#   register: output
+#   become: no
+#
+# - name: Make Directory for CouchDB
+#   command: mkdir -p /home/cc/kafka-download # say we execute our famous command from assignment #1
+#   register: output
+#   become: no
+#
+# - name: Download CouchDB
+#   command: curl "https://archive.apache.org/dist/kafka/0.8.1.1/kafka_2.9.2-0.8.1.1.tgz" -o /home/cc/kafka-download/kafka.tgz # say we execute our famous command from assignment #1
+#   register: output
+#   become: no
+#
+# - name: Extract CouchDB
+#   command: tar -xzf /home/cc/kafka-download/kafka.tgz
+#   register: output
+#   become: no
+#
+# - name: Rename Directory
+#   command: mv /home/cc/kafka_2.9.2-0.8.1.1 /home/cc/kafka
+#   register: output
+#   become: no

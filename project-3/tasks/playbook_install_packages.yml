@@ -1,0 +1,163 @@
+- name: Upgrade apt-get
+  command: apt-get update # say we execute our famous command from assignment #1
+  register: output
+  become: yes
+
+- name: Install Python3
+  apt: name=python3-pip state=latest
+  become: yes
+
+- name: Upgrade pip
+  command: python3 -m pip install --upgrade pip # say we execute our famous command from assignment #1
+  register: output
+  become: yes
+
+# INSTALL COUCHDB
+
+- name: Install CouchDB Dependencies
+  ansible.builtin.shell:
+    cmd: sudo apt-get update && sudo apt-get install -y curl apt-transport-https gnupg
+
+- name: Get Key
+  ansible.builtin.shell: curl https://couchdb.apache.org/repo/keys.asc | gpg --dearmor | sudo tee /usr/share/keyrings/couchdb-archive-keyring.gpg >/dev/null 2>&1 && source /etc/os-release
+  args:
+    executable: /bin/bash
+
+- name: Add Key
+  ansible.builtin.shell:
+    cmd: echo "deb [signed-by=/usr/share/keyrings/couchdb-archive-keyring.gpg] https://apache.jfrog.io/artifactory/couchdb-deb/ focal main" | sudo tee /etc/apt/sources.list.d/couchdb.list >/dev/null
+
+- name: Upgrade apt-get
+  command: apt-get update
+  register: output
+  become: yes
+
+- name: Get CouchDB
+  apt: name=couchdb state=latest
+  become: yes
+
+- name: Update Config Settings
+  copy:
+    src: ~/local.ini # here you can give absolute path also.
+    dest: /opt/couchdb/etc/local.ini  # destination directory into which this file will get copied.
+
+# INSTALL KAFKA
+
+- name: Get Java
+  apt: name=openjdk-8-jdk state=latest
+  become: yes
+
+- name: Delete Kafka Directories
+  command:  rm -rf /home/cc/kafka-download /home/cc/kafka su# say we execute our famous command from assignment #1
+  register: output
+  become: no
+
+
+- name: Make Directory for Kafka
+  command: mkdir -p /home/cc/kafka-download # say we execute our famous command from assignment #1
+  register: output
+  become: no
+
+- name: Download Kafka
+  command: curl "https://archive.apache.org/dist/kafka/0.8.1.1/kafka_2.9.2-0.8.1.1.tgz" -o /home/cc/kafka-download/kafka.tgz # say we execute our famous command from assignment #1
+  register: output
+  become: no
+
+- name: Extract Kafka
+  command: tar -xzf /home/cc/kafka-download/kafka.tgz
+  register: output
+  become: no
+
+- name: Rename Kafka Directory
+  command: mv /home/cc/kafka_2.9.2-0.8.1.1 /home/cc/kafka
+  register: output
+  become: no
+
+- name: Install Kafka for Python
+  command: python3 -m pip install kafka-python
+  register: output
+  become: yes
+
+- name: Copy consumer.py
+  copy:
+    src: ~/consumer.py   # here you can give absolute path also.
+    dest: ~/consumer.py    # destination directory into which this file will get copied.
+
+- name: Copy producer.py
+  copy:
+    src: ~/producer-json.py   # here you can give absolute path also.
+    dest: ~/producer-json.py    # destination directory into which this file will get copied.
+
+
+############################# BEGIN PROJECT 3 ##################################
+#
+# # INSTALL DOCKER
+#
+# - name: Upgrade apt-get
+#   command: apt-get update --allow-insecure-repositories
+#   register: output
+#   become: yes
+#
+# - name: Install Dependencies
+#   command: apt-get install ca-certificates curl gnupg lsb-release
+#   register: output
+#   become: yes
+#
+# - name: Add Docker GPG Key
+#   ansible.builtin.shell:
+#     cmd: curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o -yes /usr/share/keyrings/docker-archive-keyring.gpg
+#
+#
+# - name: Add Docker Repo
+#   ansible.builtin.shell:
+#     cmd: echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+#
+#
+# - name: Upgrade apt-get
+#   command: apt-get update --allow-insecure-repositories
+#   register: output
+#   become: yes
+#
+# - name: Get Docker
+#   command: sudo apt-get install docker-ce docker-ce-cli containerd.io
+#   register: output
+#   become: yes
+#
+# # INSTALL KUBERNETES
+#
+#
+# - name: Upgrade apt-get
+#   command: apt-get update
+#   register: output
+#   become: yes
+#
+# - name: Ensure apt-transport-https is Installed
+#   command: apt-get install -y apt-transport-https ca-certificates curl
+#   register: output
+#   become: yes
+#
+# - name: Download Google Cloud Public Signing Key
+#   command: curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg
+#   register: output
+#   become: yes
+#
+# - name: Add Kubernetes apt Repo
+#   ansible.builtin.shell:
+#     cmd: sudo echo "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
+#
+# - name: Upgrade apt-get
+#   command: apt-get update
+#   register: output
+#   become: yes
+#
+# - name: Get Kubectl
+#   apt: name=kubectl state=latest
+#   become: yes
+#
+# - name: Get Kubelet
+#   apt: name=kubelet state=latest
+#   become: yes
+#
+# - name: Get Kubeadm
+#   apt: name=kubeadm state=latest
+#   become: yes

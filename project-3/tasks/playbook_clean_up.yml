@@ -1,0 +1,10 @@
+- name: Destroy VM2
+      openstack.cloud.server:
+        name: t2-vm2-from-ansible-new
+        state: absent
+
+
+- name: Destroy VM3
+      openstack.cloud.server:
+        name: t2-vm3-from-ansible
+        state: absent

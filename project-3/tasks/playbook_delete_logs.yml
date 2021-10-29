@@ -1,0 +1,4 @@
+- name: Delete Logs
+  command:  rm -fr /tmp/kafka-logs /tmp/zookeeper # say we execute our famous command from assignment #1
+  register: output
+  become: no

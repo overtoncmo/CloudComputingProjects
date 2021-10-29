@@ -1,0 +1,15 @@
+- name: Allow 2181
+  command: ufw allow 2181/tcp # say we execute our famous command from assignment #1
+  register: output
+  become: yes
+
+- name: Allow 9092
+  command:  ufw allow 9092/tcp # say we execute our famous command from assignment #1
+  register: output
+  become: yes
+
+
+- name: Allow 5984
+  command:  ufw allow 5984/tcp # say we execute our famous command from assignment #1
+  register: output
+  become: yes

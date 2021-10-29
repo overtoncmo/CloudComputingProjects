@@ -1,0 +1,33 @@
+** How to Run The Code **
+
+As in Programming Assignemnt 2, run the Ansible Playbook on your host laptop
+to create a Vagrant VM and two cloud VMs. Then, manually SSH into Cloud VM2
+which is the kubemaster. From here, you can run commands with the K8s CLI
+utilities, but beyond that, we haven't been able to complete as of yet.
+The issues and obstacles described below have impeded our progress despite
+continuing to work on this project and find solutions to these errors.
+
+
+** Collaboration, Effort Expended, and Obstacles **
+
+As before, we have continued to collaborate on this assignment and split the
+work as evenly as possible. The main learning curve of this assignment so far
+is getting even more comfortable using Ansible in a more advanced setting,
+as well as learning to actually use Kubernetes and Docker.
+
+Although we have been working together to investigate bugs we encounter,
+we have have had many issues throughout the process of milestone 1.
+After having to manually recreate VM2 with flavor m1.medium (instead of resizing
+it), we had other problems more recently installing Kubernetes and Docker using
+Ansible, although it seems that these issues have been fixed.
+
+Currently, although Docker and Kubernetes are installed, the configuration
+files have been set, UFW rules have been updated, the correct IP addresses are
+being used, etc., we just overcame an issue where kubeadm was failing to create
+a cluster successfully. Now that we have a cluster, upon checking the status,
+it says that the connection was refused as shown. To investigate this, we
+tried running some Docker commands, but Docker is failing to start (which is
+likely causing some of our other problems as well). While we work on
+finding a solution to these issues, along with this README, we have submitted
+a quick screen recording of the output when we run this command, as well as the
+playbook which installs Docker and Kubernetes.

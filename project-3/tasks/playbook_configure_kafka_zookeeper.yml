@@ -1,0 +1,9 @@
+- name: Copy server.properties
+  copy:
+    src: ~/zk-server.properties  # here you can give absolute path also.
+    dest: /home/cc/kafka/config/server.properties    # destination directory into which this file will get copied.
+
+- name: Copy zookeeper.properties
+  copy:
+    src: ~/zookeeper.properties   # here you can give absolute path also.
+    dest: /home/cc/kafka/config/zookeeper.properties    # destination directory into which this file will get copied.

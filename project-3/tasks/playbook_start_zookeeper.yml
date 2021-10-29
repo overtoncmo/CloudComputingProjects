@@ -1,0 +1,6 @@
+- name: Start zookeeper
+  command: /home/cc/kafka/bin/zookeeper-server-start.sh /home/cc/kafka/config/zookeeper.properties
+  register: output
+  become: no
+  async: 99999
+  poll: 0

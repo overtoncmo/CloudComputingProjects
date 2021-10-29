@@ -1,0 +1,46 @@
+# This is a clouds.yaml file, which can be used by OpenStack tools as a source
+# of configuration on how to connect to Chameleon.
+#
+# If you are only a member of one project, just put this file in
+# ~/.config/openstack/clouds.yaml and tools like the CLI will just work with no
+# further config. (You will need to add your password to the auth section)
+#
+# If you are a member of multiple projects, when invoking the CLI, provide
+# either the env variable OS_CLOUD=<project> or flag --os-cloud=<project> to
+# target your operation to the desired project, where <project> is the name
+# (or nickname, if set) of your project.
+clouds:
+  # This is a clouds.yaml file, which can be used by OpenStack tools as a source
+  # of configuration on how to connect to a cloud. If this is your only cloud,
+  # just put this file in ~/.config/openstack/clouds.yaml and tools like
+  # python-openstackclient will just work with no further config. (You will need
+  # to add your password to the auth section)
+  # If you have more than one cloud account, add the cloud entry to the clouds
+  # section of your existing file and you can refer to them by name with
+  # OS_CLOUD=openstack or --os-cloud=openstack
+  openstack:
+    auth:
+      auth_url: https://kvm.tacc.chameleoncloud.org:5000
+      application_credential_id: "e68be75386b84e46b48eea2c7fe04592"
+      application_credential_secret: "rsLRCVUMz5P1gX0jBNY-A6EKp69sZ5Uc-_PZk1dxz0O1R3egY-p-GD8n9F9ZKNYA3mB9W0SCWjUpBWjtPGZgNA"
+    region_name: "KVM@TACC"
+    interface: "public"
+    identity_api_version: 3
+    auth_type: "v3applicationcredential"
+  "CH-819381":
+    auth_type: v3oidcpassword
+    auth:
+      auth_url: https://kvm.tacc.chameleoncloud.org:5000
+      username: "overtocm@vanderbilt.edu"
+      password: PictureDinner1
+      protocol: openid
+      identity_provider: chameleon
+      discovery_endpoint: https://auth.chameleoncloud.org/auth/realms/chameleon/.well-known/openid-configuration
+      client_id: keystone-kvm-prod
+      access_token_type: access_token
+      client_secret: none
+    region_name: "KVM@TACC"
+    interface: public
+    identity_api_version: 3
+    project_name: "CH-819381"
+    project_domain_name: chameleon
