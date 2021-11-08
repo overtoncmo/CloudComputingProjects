@@ -31,6 +31,8 @@ Vagrant.configure("2") do |config|
      python3 -m pip install ansible
      python3 -m pip install kafka-python
      sudo ansible-galaxy collection install openstack.cloud
+     python3 -m pip install --upgrade openstacksdk
+     sudo chown -R vagrant /home/vagrant/.ansible
   SHELL
   config.vm.provision "shell", path: "bootstrap.sh"
   config.vm.provision "file", source: "/Users/charlie/Documents/CloudComputingCourse/ScaffoldingCode/project-3/db-server.properties", destination: "~/db-server.properties"
@@ -59,6 +61,6 @@ Vagrant.configure("2") do |config|
     ansible.install = true  # installs ansible (and hence python on VM)
     ansible.limit = "all"
     ansible.inventory_path = "MyInventory"  # inventory file
-    # ansible.start_at_task = "Install Python3"
+    ansible.start_at_task = "Install CouchDB Dependencies"
   end
 end

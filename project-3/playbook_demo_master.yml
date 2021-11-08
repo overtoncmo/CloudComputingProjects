@@ -40,7 +40,7 @@
 # install packages on cloud VMs (apt, pip, kafka)
 - name: "Play 2: Install Packages"
   hosts: MyChameleonVMs          # specified in the MyInventory file
-  remote_user:  ubuntu      # note that the user is ubuntu for
+  remote_user:  cc      # note that the user is ubuntu for
                              # vagrant-created VM else use the
                              # appropriate user name
 
@@ -57,7 +57,7 @@
 # install packages on cloud VMs (apt, pip, kafka)
 - name: "Play 3: Configure Kafka on ZookeeperVM"
   hosts: ZookeeperVM          # specified in the MyInventory file
-  remote_user:  ubuntu      # note that the user is ubuntu for
+  remote_user:  cc      # note that the user is ubuntu for
                              # vagrant-created VM else use the
                              # appropriate user name
 
@@ -70,7 +70,7 @@
 # configure couchDB vm's broker and couchDB settings
 - name: "Play 4: Configure Kafka on DB VM"
   hosts: MyChameleonVMs          # specified in the MyInventory file
-  remote_user:  ubuntu      # note that the user is ubuntu for
+  remote_user:  cc      # note that the user is ubuntu for
                              # vagrant-created VM else use the
                              # appropriate user name
 
@@ -83,7 +83,7 @@
 # set ufw rules
 - name: "Play 5: Set UFW Rules"
   hosts: MyChameleonVMs          # specified in the MyInventory file
-  remote_user:  ubuntu      # note that the user is ubuntu for
+  remote_user:  cc      # note that the user is ubuntu for
                              # vagrant-created VM else use the
                              # appropriate user name
 
@@ -98,7 +98,7 @@
 # execute kafka brokers and zookeeper
 - name: "Play 6: Start Zookeeper"
   hosts: ZookeeperVM          # specified in the MyInventory file
-  remote_user:  ubuntu      # note that the user is ubuntu for
+  remote_user:  cc      # note that the user is ubuntu for
                              # vagrant-created VM else use the
                              # appropriate user name
 
@@ -113,7 +113,7 @@
 
 - name: "Play 7: Start Brokers"
   hosts: MyChameleonVMs          # specified in the MyInventory file
-  remote_user:  ubuntu      # note that the user is ubuntu for
+  remote_user:  cc      # note that the user is ubuntu for
                              # vagrant-created VM else use the
                              # appropriate user name
 
@@ -129,7 +129,7 @@
 # execute consumer
 - name: "Play 8: Start Consumer"
   hosts: CouchVM          # specified in the MyInventory file
-  remote_user:  ubuntu      # note that the user is ubuntu for
+  remote_user:  cc      # note that the user is ubuntu for
                              # vagrant-created VM else use the
                              # appropriate user name
 

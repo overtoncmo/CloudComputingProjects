@@ -8,7 +8,7 @@ import couchdb
 
 # acquire the consumer
 # (you will need to change this to your bootstrap server's IP addr)
-consumer = KafkaConsumer (bootstrap_servers=["129.114.26.116:9092", "129.114.25.114:9092", "3.90.222.36:9092"])
+consumer = KafkaConsumer (bootstrap_servers=["129.114.26.116:9092"]) # , "129.114.25.114:9092", "3.90.222.36:9092"
 
 # subscribe to topic
 consumer.subscribe (topics=["china", "andorra", "greece"])

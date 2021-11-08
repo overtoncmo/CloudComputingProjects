@@ -81,7 +81,7 @@
 - name: Copy consumer.py
   copy:
     src: ~/consumer.py   # here you can give absolute path also.
-    dest: ~/consumer.py    # destination directory into which this file will get copied.
+    dest: /home/cc/   # destination directory into which this file will get copied.
 
 - name: Copy producer.py
   copy:
